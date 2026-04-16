@@ -1,0 +1,20 @@
+{
+  "8626da75-b1f2-4399-acdc-bfd427feac97": {
+    "id": "8626da75-b1f2-4399-acdc-bfd427feac97",
+    "name": "Mathu DR",
+    "email": "mathumithadr@gmail.com",
+    "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+    "created_at": "2026-04-16T08:38:54.267460",
+    "profile": {
+      "age": "22",
+      "gender": "1",
+      "education": "2",
+      "employment": "2",
+      "income": "300000",
+      "monthly_expenses": "20000",
+      "savings": "15000",
+      "loan_amount": "200000",
+      "credit_score": "300"
+    }
+  }
+}

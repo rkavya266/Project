@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinSight — Personalized Financial Recommendations</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            --ink: #0d1117;
+            --paper: #f8f5ef;
+            --cream: #f0ead8;
+            --gold: #c9a84c;
+            --gold-light: #e8d5a3;
+            --gold-dark: #9a7a2e;
+            --sage: #4a6741;
+            --coral: #c95a3f;
+            --slate: #4a5568;
+            --muted: #8a8a8a;
+            --white: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --shadow: 0 8px 40px rgba(13, 17, 23, 0.10);
+            --shadow-lg: 0 20px 60px rgba(13, 17, 23, 0.16);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--paper);
+            color: var(--ink);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        /* Background texture */
+        
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(ellipse at 20% 50%, rgba(201, 168, 76, 0.08) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(74, 103, 65, 0.06) 0%, transparent 50%), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='0.5' fill='%23c9a84c' opacity='0.15'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+        /* ── HEADER ─────────────────────────────────────── */
+        
+        header {
+            position: relative;
+            z-index: 10;
+            padding: 28px 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+            background: rgba(248, 245, 239, 0.8);
+            backdrop-filter: blur(12px);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-mark {
+            width: 40px;
+            height: 40px;
+            background: var(--ink);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            color: var(--gold);
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+        
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--ink);
+            letter-spacing: -0.3px;
+        }
+        
+        .logo-text span {
+            color: var(--gold);
+        }
+        
+        .badge {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--muted);
+            padding: 5px 14px;
+            border: 1px solid rgba(201, 168, 76, 0.4);
+            border-radius: 20px;
+            background: rgba(201, 168, 76, 0.05);
+        }
+        /* ── HERO ────────────────────────────────────────── */
+        
+        .hero {
+            position: relative;
+            z-index: 5;
+            text-align: center;
+            padding: 72px 40px 56px;
+            max-width: 760px;
+            margin: 0 auto;
+        }
+        
+        .hero-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--ink);
+            color: var(--gold-light);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 6px 16px;
+            border-radius: 20px;
+            margin-bottom: 28px;
+        }
+        
+        .hero-chip::before {
+            content: '✦';
+            font-size: 9px;
+        }
+        
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(36px, 5vw, 58px);
+            font-weight: 700;
+            line-height: 1.12;
+            color: var(--ink);
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+        
+        h1 em {
+            font-style: italic;
+            color: var(--gold-dark);
+        }
+        
+        .hero p {
+            font-size: 17px;
+            color: var(--slate);
+            line-height: 1.7;
+            font-weight: 300;
+            max-width: 520px;
+            margin: 0 auto;
+        }
+        /* ── MAIN LAYOUT ─────────────────────────────────── */
+        
+        .container {
+            position: relative;
+            z-index: 5;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 40px 80px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            align-items: start;
+        }
+        /* ── FORM CARD ───────────────────────────────────── */
+        
+        .form-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(201, 168, 76, 0.15);
+            position: sticky;
+            top: 24px;
+        }
+        
+        .form-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 6px;
+        }
+        
+        .form-subtitle {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 32px;
+        }
+        
+        .section-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold-dark);
+            margin: 24px 0 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(201, 168, 76, 0.2);
+        }
+        
+        .field-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        
+        .field-full {
+            grid-column: span 2;
+        }
+        
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        
+        .field label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--slate);
+            letter-spacing: 0.3px;
+        }
+        
+        .field input,
+        .field select {
+            padding: 11px 14px;
+            border: 1.5px solid rgba(201, 168, 76, 0.25);
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            color: var(--ink);
+            background: rgba(248, 245, 239, 0.6);
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        .field input:focus,
+        .field select:focus {
+            border-color: var(--gold);
+            background: var(--white);
+            box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.12);
+        }
+        
+        .field input::placeholder {
+            color: #bbb;
+        }
+        
+        .field .hint {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+        
+        .btn {
+            margin-top: 28px;
+            width: 100%;
+            padding: 16px;
+            background: var(--ink);
+            color: var(--gold-light);
+            border: none;
+            border-radius: 12px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.2s, background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn:hover {
+            background: #1a2330;
+            box-shadow: 0 8px 24px rgba(13, 17, 23, 0.25);
+            transform: translateY(-1px);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn .spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(201, 168, 76, 0.3);
+            border-top-color: var(--gold-light);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            display: none;
+        }
+        
+        .btn.loading .spinner {
+            display: block;
+        }
+        
+        .btn.loading .btn-text {
+            opacity: 0.6;
+        }
+        
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        /* ── RESULTS PANEL ──────────────────────────────── */
+        
+        .results-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        /* Empty state */
+        
+        .empty-state {
+            background: var(--card-bg);
+            border: 2px dashed rgba(201, 168, 76, 0.3);
+            border-radius: 24px;
+            padding: 60px 32px;
+            text-align: center;
+        }
+        
+        .empty-state .empty-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+        
+        .empty-state p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        /* Top picks */
+        
+        .section-heading {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--ink);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-heading .pill {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            background: var(--ink);
+            color: var(--gold-light);
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+        
+        .top-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        
+        .product-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 18px;
+            padding: 24px 26px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(201, 168, 76, 0.15);
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.4s ease, transform 0.4s ease, box-shadow 0.2s;
+            animation: cardIn 0.4s forwards;
+        }
+        
+        .product-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+        
+        .product-card.rank-1 {
+            border: 1.5px solid rgba(201, 168, 76, 0.5);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(240, 234, 216, 0.7));
+        }
+        
+        @keyframes cardIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+        
+        .card-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        
+        .product-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 13px;
+            background: var(--ink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+        
+        .rank-1 .product-icon {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+        }
+        
+        .product-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 2px;
+        }
+        
+        .product-tag {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        
+        .rank-1 .product-tag {
+            color: var(--gold-dark);
+        }
+        
+        .score-badge {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1;
+        }
+        
+        .score-badge span {
+            font-size: 14px;
+            font-family: 'DM Sans', sans-serif;
+            color: var(--muted);
+        }
+        
+        .rank-1 .score-badge {
+            color: var(--gold-dark);
+        }
+        
+        .progress-track {
+            height: 6px;
+            background: rgba(201, 168, 76, 0.15);
+            border-radius: 999px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+            width: 0%;
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .rank-2 .progress-fill {
+            background: linear-gradient(90deg, var(--slate), #718096);
+        }
+        
+        .product-desc {
+            font-size: 13px;
+            color: var(--slate);
+            line-height: 1.6;
+        }
+        /* All scores */
+        
+        .scores-card {
+            background: var(--card-bg);
+            border-radius: 18px;
+            padding: 24px 26px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(201, 168, 76, 0.15);
+            opacity: 0;
+            animation: cardIn 0.5s 0.3s forwards;
+        }
+        
+        .scores-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 16px;
+        }
+        
+        .score-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .score-row:last-child {
+            margin-bottom: 0;
+        }
+        
+        .score-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--slate);
+            width: 100px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .mini-bar {
+            flex: 1;
+            height: 5px;
+            background: rgba(201, 168, 76, 0.12);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+        
+        .mini-fill {
+            height: 100%;
+            border-radius: 999px;
+            background: var(--gold);
+            width: 0%;
+            transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .score-val {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--ink);
+            width: 38px;
+            text-align: right;
+            flex-shrink: 0;
+        }
+        /* Financial Insights */
+        
+        .insights-card {
+            background: var(--ink);
+            border-radius: 18px;
+            padding: 24px 26px;
+            opacity: 0;
+            animation: cardIn 0.5s 0.5s forwards;
+        }
+        
+        .insights-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--gold-light);
+            margin-bottom: 16px;
+        }
+        
+        .insights-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+        }
+        
+        .insight-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 14px;
+            border: 1px solid rgba(201, 168, 76, 0.12);
+        }
+        
+        .insight-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--gold-light);
+            margin-bottom: 4px;
+            line-height: 1;
+        }
+        
+        .insight-label {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.45);
+        }
+        /* Error state */
+        
+        .error-msg {
+            background: rgba(201, 63, 63, 0.07);
+            border: 1px solid rgba(201, 63, 63, 0.25);
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: 13px;
+            color: var(--coral);
+            margin-top: 12px;
+            display: none;
+        }
+        /* ── FOOTER ──────────────────────────────────────── */
+        
+        footer {
+            position: relative;
+            z-index: 5;
+            text-align: center;
+            padding: 24px;
+            font-size: 12px;
+            color: var(--muted);
+            border-top: 1px solid rgba(201, 168, 76, 0.12);
+        }
+        
+        footer strong {
+            color: var(--ink);
+        }
+        /* ── RESPONSIVE ─────────────────────────────────── */
+        
+        @media (max-width: 768px) {
+            header {
+                padding: 20px 24px;
+            }
+            .hero {
+                padding: 48px 24px 36px;
+            }
+            .container {
+                grid-template-columns: 1fr;
+                padding: 0 24px 60px;
+            }
+            .form-card {
+                position: static;
+            }
+            .field-grid {
+                grid-template-columns: 1fr;
+            }
+            .field-full {
+                grid-column: span 1;
+            }
+            .insights-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            <div class="logo-mark">F</div>
+            <div class="logo-text">Fin<span>Sight</span></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+            <div class="badge">AI · ML Powered</div>
+            <span id="nav-username" style="font-size:13px;font-weight:600;color:var(--slate);display:none;"></span>
+            <a href="/profile" style="font-size:13px;font-weight:600;padding:7px 16px;border-radius:20px;border:1.5px solid rgba(201,168,76,0.35);background:transparent;color:var(--ink);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;text-decoration:none;display:none;"
+                id="nav-profile">My Profile</a>
+            <button onclick="doLogout()" style="font-size:13px;font-weight:600;padding:7px 16px;border-radius:20px;border:none;background:var(--ink);color:var(--gold-light);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;display:none;" id="nav-logout">Sign Out</button>
+        </div>
+    </header>
+
+    <div class="hero">
+        <div class="hero-chip">Random Forest Model</div>
+        <h1>Your <em>Personalised</em><br>Financial Blueprint</h1>
+        <p>Enter your financial details and our intelligent model will recommend the best products crafted for your unique profile.</p>
+    </div>
+
+    <div class="container">
+
+        <!-- FORM -->
+        <div class="form-card">
+            <div class="form-title">Your Profile</div>
+            <div class="form-subtitle">All fields required for accurate recommendations</div>
+
+            <div class="section-label">Personal</div>
+            <div class="field-grid">
+                <div class="field">
+                    <label>Age</label>
+                    <input type="number" id="age" placeholder="e.g. 30" min="18" max="90">
+                </div>
+                <div class="field">
+                    <label>Gender</label>
+                    <select id="gender">
+          <option value="">Select</option>
+          <option value="1">Female</option>
+          <option value="0">Male</option>
+        </select>
+                </div>
+                <div class="field">
+                    <label>Education Level</label>
+                    <select id="education">
+          <option value="">Select</option>
+          <option value="0">High School</option>
+          <option value="1">Bachelor's</option>
+          <option value="2">Master's</option>
+          <option value="3">Doctorate</option>
+        </select>
+                </div>
+                <div class="field">
+                    <label>Employment Status</label>
+                    <select id="employment">
+          <option value="">Select</option>
+          <option value="0">Self-Employed</option>
+          <option value="1">Part-Time</option>
+          <option value="2">Full-Time</option>
+          <option value="3">Unemployed</option>
+        </select>
+                </div>
+            </div>
+
+            <div class="section-label">Financials</div>
+            <div class="field-grid">
+                <div class="field">
+                    <label>Annual Income (₹)</label>
+                    <input type="number" id="income" placeholder="e.g. 600000" min="0">
+                </div>
+                <div class="field">
+                    <label>Monthly Expenses (₹)</label>
+                    <input type="number" id="monthly_expenses" placeholder="e.g. 25000" min="0">
+                </div>
+                <div class="field">
+                    <label>Total Savings (₹)</label>
+                    <input type="number" id="savings" placeholder="e.g. 150000" min="0">
+                </div>
+                <div class="field">
+                    <label>Loan Amount (₹)</label>
+                    <input type="number" id="loan_amount" placeholder="e.g. 50000" min="0">
+                    <div class="hint">Enter 0 if no current loan</div>
+                </div>
+                <div class="field field-full">
+                    <label>Credit Score</label>
+                    <input type="number" id="credit_score" placeholder="300 – 900" min="300" max="900">
+                </div>
+            </div>
+
+            <div id="error-msg" class="error-msg"></div>
+
+            <button class="btn" onclick="getPrediction()">
+      <div class="spinner"></div>
+      <span class="btn-text">Generate Recommendations ✦</span>
+    </button>
+        </div>
+
+        <!-- RESULTS -->
+        <div class="results-panel" id="results-panel">
+            <div class="empty-state" id="empty-state">
+                <div class="empty-icon">📊</div>
+                <p>Fill in your details on the left and click<br><strong>Generate Recommendations</strong><br>to see your personalised financial plan.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        Built with <strong>Random Forest</strong> · Personalized Financial Product Recommendation System
+    </footer>
+
+    <script>
+        // ── Init: load user session & pre-fill form ──────────────────────────────────
+        (async function initUser() {
+            try {
+                const res = await fetch('/api/me');
+                const data = await res.json();
+                if (!data.success) {
+                    window.location.href = '/login';
+                    return;
+                }
+
+                document.getElementById('nav-username').textContent = 'Hi, ' + data.name.split(' ')[0];
+                document.getElementById('nav-username').style.display = 'inline';
+                document.getElementById('nav-profile').style.display = 'inline-block';
+                document.getElementById('nav-logout').style.display = 'inline-block';
+
+                // Restore inputs sent back from profile history
+                const restore = sessionStorage.getItem('restore_inputs');
+                if (restore) {
+                    sessionStorage.removeItem('restore_inputs');
+                    const inp = JSON.parse(restore);
+                    const map = {
+                        age: 'age',
+                        income: 'income',
+                        loan_amount: 'loan_amount',
+                        credit_score: 'credit_score',
+                        savings: 'savings',
+                        monthly_expenses: 'monthly_expenses'
+                    };
+                    Object.entries(map).forEach(([k, id]) => {
+                        if (inp[k] !== undefined) document.getElementById(id).value = inp[k];
+                    });
+                    return;
+                }
+
+                // Pre-fill from saved profile
+                const p = data.profile;
+                const fieldMap = {
+                    age: 'age',
+                    income: 'income',
+                    loan_amount: 'loan_amount',
+                    credit_score: 'credit_score',
+                    savings: 'savings',
+                    monthly_expenses: 'monthly_expenses',
+                    gender: 'gender',
+                    education: 'education',
+                    employment: 'employment'
+                };
+                Object.entries(fieldMap).forEach(([pk, domId]) => {
+                    if (p[pk] !== '' && p[pk] !== undefined) {
+                        const el = document.getElementById(domId);
+                        if (el) el.value = p[pk];
+                    }
+                });
+            } catch (e) { /* silent */ }
+        })();
+
+        async function doLogout() {
+            await fetch('/api/logout', {
+                method: 'POST'
+            });
+            window.location.href = '/login';
+        }
+
+        async function getPrediction() {
+            const btn = document.querySelector('.btn');
+            const errorDiv = document.getElementById('error-msg');
+            errorDiv.style.display = 'none';
+
+            // Collect values
+            const fields = {
+                age: document.getElementById('age').value,
+                income: document.getElementById('income').value,
+                loan_amount: document.getElementById('loan_amount').value,
+                credit_score: document.getElementById('credit_score').value,
+                savings: document.getElementById('savings').value,
+                gender: document.getElementById('gender').value,
+                education: document.getElementById('education').value,
+                employment: document.getElementById('employment').value,
+                monthly_expenses: document.getElementById('monthly_expenses').value,
+            };
+
+            // Validate
+            for (const [k, v] of Object.entries(fields)) {
+                if (v === '' || v === null) {
+                    showError('Please fill in all fields before generating recommendations.');
+                    return;
+                }
+            }
+
+            btn.classList.add('loading');
+
+            try {
+                const res = await fetch('/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(fields)
+                });
+                const data = await res.json();
+
+                if (!data.success) throw new Error(data.error);
+                renderResults(data);
+            } catch (e) {
+                showError('Error: ' + e.message);
+            } finally {
+                btn.classList.remove('loading');
+            }
+        }
+
+        function showError(msg) {
+            const d = document.getElementById('error-msg');
+            d.textContent = msg;
+            d.style.display = 'block';
+        }
+
+        function renderResults(data) {
+            const panel = document.getElementById('results-panel');
+            const {
+                top,
+                others,
+                derived,
+                cluster
+            } = data;
+
+            const all = [...top, ...others];
+            const rankLabels = ['Top Pick', 'Runner-up', 'Moderate', 'Low Priority', 'Not Suited'];
+
+            panel.innerHTML = `
+    <div class="section-heading">
+      Recommendations <span class="pill">Top 2</span>
+    </div>
+    <div class="top-cards">
+      ${top.map((p, i) => `
+        <div class="product-card rank-${i+1}" style="animation-delay:${i*0.12}s">
+          <div class="card-top">
+            <div class="card-left">
+              <div class="product-icon">${p.icon}</div>
+              <div>
+                <div class="product-name">${p.product}</div>
+                <div class="product-tag">${rankLabels[i]}</div>
+              </div>
+            </div>
+            <div class="score-badge">${p.score.toFixed(1)}<span>%</span></div>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" data-width="${p.score}"></div>
+          </div>
+          <div class="product-desc">${p.description}</div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="scores-card">
+      <div class="scores-title">All Product Scores</div>
+      ${all.map((p, i) => `
+        <div class="score-row">
+          <div class="score-label">${p.icon} ${p.product}</div>
+          <div class="mini-bar"><div class="mini-fill" data-width="${p.score}"></div></div>
+          <div class="score-val">${p.score.toFixed(1)}%</div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="insights-card">
+      <div class="insights-title">Financial Snapshot</div>
+      <div class="insights-grid">
+        <div class="insight-item">
+          <div class="insight-value">₹${fmtNum(derived.net_disposable)}</div>
+          <div class="insight-label">Net Disposable</div>
+        </div>
+        <div class="insight-item">
+          <div class="insight-value">${derived.savings_ratio}%</div>
+          <div class="insight-label">Savings Ratio</div>
+        </div>
+        <div class="insight-item">
+          <div class="insight-value">${derived.expense_ratio}%</div>
+          <div class="insight-label">Expense Ratio</div>
+        </div>
+        <div class="insight-item">
+          <div class="insight-value">${derived.debt_to_income}%</div>
+          <div class="insight-label">Debt/Income</div>
+        </div>
+        <div class="insight-item">
+          <div class="insight-value">₹${fmtNum(derived.emi)}</div>
+          <div class="insight-label">Est. Monthly EMI</div>
+        </div>
+        <div class="insight-item">
+          <div class="insight-value">${derived.risk_score}</div>
+          <div class="insight-label">Risk Score</div>
+        </div>
+      </div>
+    </div>
+    <div class="insights-card" style="margin-top:10px;">
+  <div class="insights-title">User Segment</div>
+  <div class="insights-grid">
+    <div class="insight-item">
+      <div class="insight-value">Cluster ${cluster}</div>
+      <div class="insight-label">User Type</div>
+    </div>
+  </div>
+</div>
+  `;
+
+  // Animate bars after render
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      document.querySelectorAll('[data-width]').forEach(el => {
+        el.style.width = el.dataset.width + '%';
+      });
+    }, 100);
+  });
+}
+
+function fmtNum(n) {
+  if (Math.abs(n) >= 100000) return (n/100000).toFixed(1) + 'L';
+  if (Math.abs(n) >= 1000) return (n/1000).toFixed(1) + 'K';
+  return Math.round(n).toString();
+}
+    </script>
+</body>
+
+</html>

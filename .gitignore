@@ -1,0 +1,20 @@
+# Ignore model files
+*.pkl
+
+# Ignore JSON data (optional but recommended)
+history.json
+user.json
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environment
+venv/
+env/
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store

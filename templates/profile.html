@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FinSight — My Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d1117;
+    --paper: #f8f5ef;
+    --cream: #f0ead8;
+    --gold: #c9a84c;
+    --gold-light: #e8d5a3;
+    --gold-dark: #9a7a2e;
+    --sage: #4a6741;
+    --coral: #c95a3f;
+    --slate: #4a5568;
+    --muted: #8a8a8a;
+    --white: #ffffff;
+    --card-bg: rgba(255,255,255,0.85);
+    --shadow: 0 8px 40px rgba(13,17,23,0.10);
+    --shadow-lg: 0 20px 60px rgba(13,17,23,0.16);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse at 20% 50%, rgba(201,168,76,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(74,103,65,0.06) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='0.5' fill='%23c9a84c' opacity='0.15'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  header {
+    position: relative;
+    z-index: 10;
+    padding: 22px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    background: rgba(248,245,239,0.8);
+    backdrop-filter: blur(12px);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .logo-mark {
+    width: 38px; height: 38px;
+    background: var(--ink);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 19px; color: var(--gold); font-weight: 700;
+  }
+
+  .logo-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 21px; font-weight: 700; color: var(--ink);
+  }
+
+  .logo-text span { color: var(--gold); }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .nav-btn {
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 18px;
+    border-radius: 20px;
+    border: 1.5px solid rgba(201,168,76,0.35);
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .nav-btn:hover { background: rgba(201,168,76,0.1); }
+
+  .nav-btn.primary {
+    background: var(--ink);
+    color: var(--gold-light);
+    border-color: var(--ink);
+  }
+
+  .nav-btn.primary:hover { background: #1a2330; }
+
+  .page-wrap {
+    position: relative;
+    z-index: 5;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 40px 80px;
+  }
+
+  .page-header {
+    margin-bottom: 36px;
+  }
+
+  .page-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--ink);
+    color: var(--gold-light);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+
+  .page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+  }
+
+  .page-title em { font-style: italic; color: var(--gold-dark); }
+
+  .page-sub {
+    font-size: 14px;
+    color: var(--muted);
+    margin-top: 8px;
+    line-height: 1.6;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+
+  .card {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(201,168,76,0.15);
+  }
+
+  .card-full { grid-column: span 2; }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .card-subtitle {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-dark);
+    margin: 20px 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(201,168,76,0.2);
+  }
+
+  .field-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .field-full { grid-column: span 2; }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .field label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--slate);
+  }
+
+  .field input,
+  .field select {
+    padding: 11px 14px;
+    border: 1.5px solid rgba(201,168,76,0.25);
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: rgba(248,245,239,0.6);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    -webkit-appearance: none;
+  }
+
+  .field input:focus,
+  .field select:focus {
+    border-color: var(--gold);
+    background: var(--white);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+  }
+
+  .field input::placeholder { color: #bbb; }
+
+  .save-btn {
+    margin-top: 24px;
+    padding: 13px 32px;
+    background: var(--ink);
+    color: var(--gold-light);
+    border: none;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .save-btn:hover {
+    box-shadow: 0 8px 24px rgba(13,17,23,0.2);
+    transform: translateY(-1px);
+  }
+
+  .save-btn .spinner {
+    width: 15px; height: 15px;
+    border: 2px solid rgba(201,168,76,0.3);
+    border-top-color: var(--gold-light);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: none;
+  }
+
+  .save-btn.loading .spinner { display: block; }
+  .save-btn.loading .btn-text { opacity: 0.6; }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .toast {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    background: var(--ink);
+    color: var(--gold-light);
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s, transform 0.3s;
+    pointer-events: none;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Account info card */
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+    font-size: 14px;
+  }
+
+  .info-row:last-child { border-bottom: none; }
+  .info-label { color: var(--muted); font-weight: 500; }
+  .info-value { color: var(--ink); font-weight: 600; }
+
+  /* History table */
+  .history-empty {
+    text-align: center;
+    padding: 32px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .history-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+  }
+
+  .history-item:last-child { border-bottom: none; }
+
+  .history-icon {
+    width: 40px; height: 40px;
+    background: var(--ink);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .history-body { flex: 1; }
+
+  .history-top-rec {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--ink);
+  }
+
+  .history-meta {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .history-cluster {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: rgba(201,168,76,0.12);
+    color: var(--gold-dark);
+    padding: 3px 10px;
+    border-radius: 20px;
+    flex-shrink: 0;
+  }
+
+  .use-btn {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 8px;
+    border: 1.5px solid rgba(201,168,76,0.35);
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .use-btn:hover { background: rgba(201,168,76,0.1); }
+
+  @media (max-width: 768px) {
+    header { padding: 18px 20px; }
+    .page-wrap { padding: 32px 20px 60px; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .card-full { grid-column: span 1; }
+    .field-grid { grid-template-columns: 1fr; }
+    .field-full { grid-column: span 1; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="/">
+    <div class="logo-mark">F</div>
+    <div class="logo-text">Fin<span>Sight</span></div>
+  </a>
+  <div class="nav-right">
+    <a class="nav-btn" href="/">← Back to Advisor</a>
+    <button class="nav-btn primary" onclick="doLogout()">Sign Out</button>
+  </div>
+</header>
+
+<div class="page-wrap">
+  <div class="page-header">
+    <div class="page-chip">✦ My Account</div>
+    <h1 class="page-title">Your <em>Financial</em> Profile</h1>
+    <p class="page-sub">Your details are saved so you don't have to re-enter them each time. Update anytime.</p>
+  </div>
+
+  <div class="grid-2">
+
+    <!-- Account Info -->
+    <div class="card">
+      <div class="card-title">👤 Account</div>
+      <div class="card-subtitle">Registered account information</div>
+      <div id="account-info">
+        <div class="info-row"><span class="info-label">Name</span><span class="info-value" id="info-name">—</span></div>
+        <div class="info-row"><span class="info-label">Email</span><span class="info-value" id="info-email">—</span></div>
+        <div class="info-row"><span class="info-label">Member Since</span><span class="info-value" id="info-since">—</span></div>
+      </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="card">
+      <div class="card-title">📊 Overview</div>
+      <div class="card-subtitle">Your saved financial snapshot</div>
+      <div id="quick-stats">
+        <div class="info-row"><span class="info-label">Annual Income</span><span class="info-value" id="stat-income">—</span></div>
+        <div class="info-row"><span class="info-label">Total Savings</span><span class="info-value" id="stat-savings">—</span></div>
+        <div class="info-row"><span class="info-label">Credit Score</span><span class="info-value" id="stat-credit">—</span></div>
+        <div class="info-row"><span class="info-label">Loan Amount</span><span class="info-value" id="stat-loan">—</span></div>
+      </div>
+    </div>
+
+    <!-- Edit Profile -->
+    <div class="card card-full">
+      <div class="card-title">✏️ Edit Profile</div>
+      <div class="card-subtitle">Changes are saved and pre-filled in the advisor form automatically</div>
+
+      <div class="section-label">Personal Details</div>
+      <div class="field-grid">
+        <div class="field field-full">
+          <label>Full Name</label>
+          <input type="text" id="p-name" placeholder="Your name">
+        </div>
+        <div class="field">
+          <label>Age</label>
+          <input type="number" id="p-age" placeholder="e.g. 30" min="18" max="90">
+        </div>
+        <div class="field">
+          <label>Gender</label>
+          <select id="p-gender">
+            <option value="">Select</option>
+            <option value="1">Female</option>
+            <option value="0">Male</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Education Level</label>
+          <select id="p-education">
+            <option value="">Select</option>
+            <option value="0">High School</option>
+            <option value="1">Bachelor's</option>
+            <option value="2">Master's</option>
+            <option value="3">Doctorate</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Employment Status</label>
+          <select id="p-employment">
+            <option value="">Select</option>
+            <option value="0">Self-Employed</option>
+            <option value="1">Part-Time</option>
+            <option value="2">Full-Time</option>
+            <option value="3">Unemployed</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="section-label">Financial Details</div>
+      <div class="field-grid">
+        <div class="field">
+          <label>Annual Income (₹)</label>
+          <input type="number" id="p-income" placeholder="e.g. 600000">
+        </div>
+        <div class="field">
+          <label>Monthly Expenses (₹)</label>
+          <input type="number" id="p-monthly_expenses" placeholder="e.g. 25000">
+        </div>
+        <div class="field">
+          <label>Total Savings (₹)</label>
+          <input type="number" id="p-savings" placeholder="e.g. 150000">
+        </div>
+        <div class="field">
+          <label>Loan Amount (₹)</label>
+          <input type="number" id="p-loan_amount" placeholder="0 if none">
+        </div>
+        <div class="field field-full">
+          <label>Credit Score (300–900)</label>
+          <input type="number" id="p-credit_score" placeholder="e.g. 720" min="300" max="900">
+        </div>
+      </div>
+
+      <button class="save-btn" id="save-btn" onclick="saveProfile()">
+        <div class="spinner"></div>
+        <span class="btn-text">Save Changes ✦</span>
+      </button>
+    </div>
+
+    <!-- History -->
+    <div class="card card-full">
+      <div class="card-title">🕑 Recommendation History</div>
+      <div class="card-subtitle">Your last 10 sessions — click "Use" to re-load inputs from a past session</div>
+      <div id="history-list"><div class="history-empty">Loading history…</div></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const PRODUCT_ICONS = {
+  "Investment": "📈", "Loan": "🏦",
+  "Credit Score": "💳", "Savings": "🏧", "EMI": "📅"
+};
+
+function fmtNum(n) {
+  n = parseFloat(n);
+  if (isNaN(n)) return '—';
+  if (Math.abs(n) >= 100000) return '₹' + (n/100000).toFixed(1) + 'L';
+  if (Math.abs(n) >= 1000)   return '₹' + (n/1000).toFixed(1) + 'K';
+  return '₹' + Math.round(n);
+}
+
+function fmtDate(iso) {
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' })
+       + ' ' + d.toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' });
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+async function loadProfile() {
+  const res  = await fetch('/api/me');
+  const data = await res.json();
+  if (!data.success) { window.location.href = '/login'; return; }
+
+  document.getElementById('info-name').textContent  = data.name;
+  document.getElementById('info-email').textContent = data.email;
+  document.getElementById('info-since').textContent = fmtDate(data.created_at);
+
+  const p = data.profile;
+  document.getElementById('p-name').value = data.name;
+
+  const fields = ['age','gender','education','employment','income','monthly_expenses','savings','loan_amount','credit_score'];
+  fields.forEach(f => {
+    const el = document.getElementById('p-' + f);
+    if (el && p[f] !== undefined && p[f] !== '') el.value = p[f];
+  });
+
+  // Quick stats
+  document.getElementById('stat-income').textContent  = p.income  ? fmtNum(p.income)  : '—';
+  document.getElementById('stat-savings').textContent = p.savings ? fmtNum(p.savings) : '—';
+  document.getElementById('stat-credit').textContent  = p.credit_score || '—';
+  document.getElementById('stat-loan').textContent    = p.loan_amount !== undefined && p.loan_amount !== '' ? fmtNum(p.loan_amount) : '—';
+}
+
+async function loadHistory() {
+  const res  = await fetch('/api/history');
+  const data = await res.json();
+  const list = document.getElementById('history-list');
+
+  if (!data.success || data.history.length === 0) {
+    list.innerHTML = '<div class="history-empty">No history yet. Run the advisor to see results here.</div>';
+    return;
+  }
+
+  list.innerHTML = data.history.map(h => `
+    <div class="history-item">
+      <div class="history-icon">${PRODUCT_ICONS[h.top_recommendation] || '📊'}</div>
+      <div class="history-body">
+        <div class="history-top-rec">${h.top_recommendation}</div>
+        <div class="history-meta">
+          ${fmtDate(h.timestamp)} &nbsp;·&nbsp;
+          Income: ${fmtNum(h.inputs.income)} &nbsp;·&nbsp;
+          Risk: ${h.derived.risk_score}
+        </div>
+      </div>
+      <div class="history-cluster">Cluster ${h.cluster}</div>
+      <button class="use-btn" onclick='restoreInputs(${JSON.stringify(h.inputs)})'>Use</button>
+    </div>
+  `).join('');
+}
+
+function restoreInputs(inputs) {
+  // Store inputs in sessionStorage so index.html can pick them up
+  sessionStorage.setItem('restore_inputs', JSON.stringify(inputs));
+  window.location.href = '/';
+}
+
+async function saveProfile() {
+  const btn = document.getElementById('save-btn');
+  btn.classList.add('loading');
+
+  const payload = {
+    name:             document.getElementById('p-name').value.trim(),
+    age:              document.getElementById('p-age').value,
+    gender:           document.getElementById('p-gender').value,
+    education:        document.getElementById('p-education').value,
+    employment:       document.getElementById('p-employment').value,
+    income:           document.getElementById('p-income').value,
+    monthly_expenses: document.getElementById('p-monthly_expenses').value,
+    savings:          document.getElementById('p-savings').value,
+    loan_amount:      document.getElementById('p-loan_amount').value,
+    credit_score:     document.getElementById('p-credit_score').value,
+  };
+
+  try {
+    const res  = await fetch('/api/profile', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast('✦ Profile saved successfully');
+      document.getElementById('info-name').textContent  = data.name;
+      const p = data.profile;
+      document.getElementById('stat-income').textContent  = p.income  ? fmtNum(p.income)  : '—';
+      document.getElementById('stat-savings').textContent = p.savings ? fmtNum(p.savings) : '—';
+      document.getElementById('stat-credit').textContent  = p.credit_score || '—';
+      document.getElementById('stat-loan').textContent    = p.loan_amount !== undefined && p.loan_amount !== '' ? fmtNum(p.loan_amount) : '—';
+    } else {
+      showToast('⚠ ' + (data.error || 'Save failed'));
+    }
+  } catch (e) {
+    showToast('⚠ Network error');
+  } finally {
+    btn.classList.remove('loading');
+  }
+}
+
+async function doLogout() {
+  await fetch('/api/logout', { method: 'POST' });
+  window.location.href = '/login';
+}
+
+// Init
+loadProfile();
+loadHistory();
+</script>
+</body>
+</html>
