@@ -1,5 +1,7 @@
 FinSight — Personalized Financial Product Recommendation
 ML-Powered Web Application
+
+
 📁 Project Structure
 finrec/
 ├── app.py                  ← Flask backend (API + routing)
@@ -11,6 +13,8 @@ finrec/
 ├── templates/
 │   └── index.html          ← Frontend (HTML/CSS/JS)
 └── README.md
+
+
 ⚙️ Setup Instructions
 1. Install Dependencies
 pip install -r requirements.txt
