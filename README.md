@@ -4,14 +4,23 @@ ML-Powered Web Application
 
 📁 Project Structure
 finrec/
+
 ├── app.py                  ← Flask backend (API + routing)
+
 ├── model.pkl               ← Trained Multi-Output Regression Model
+
 ├── kmeans.pkl              ← User Segmentation Model
+
 ├── history.json            ← Stores user recommendation history
+
 ├── user.json               ← Stores user login & profile data
+
 ├── requirements.txt        ← Python dependencies
+
 ├── templates/
+
 │   └── index.html          ← Frontend (HTML/CSS/JS)
+
 └── README.md
 
 
