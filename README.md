@@ -22,6 +22,7 @@ pip install -r requirements.txt
 Download the trained models:
 
 📦 Model:
+
 model.pkl link: https://drive.google.com/file/d/18c2tTMDPjBXfhLlaTP6U9uNthY5-s6Yh/view?usp=sharing
 
 kmeans.pkl link: https://drive.google.com/file/d/1D_qLMs_Ou9RFuY69dTcv5CE3eFU6Qvdk/view?usp=sharing
